@@ -22,7 +22,7 @@ public class CobrancaService {
     public Cobranca criarCobranca(String cliente, BigDecimal valor) {
 
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new ValorInvalidoException("Valor inválido");
+            throw new ValorInvalidoException("Valor Inválido");
         }
 
         Cobranca cobranca = new Cobranca();
