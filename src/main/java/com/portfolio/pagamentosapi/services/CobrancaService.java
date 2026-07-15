@@ -1,5 +1,7 @@
 package com.portfolio.pagamentosapi.services;
 
+import com.portfolio.pagamentosapi.exceptions.CobrancaNaoEncontradaException;
+import com.portfolio.pagamentosapi.exceptions.ValorInvalidoException;
 import com.portfolio.pagamentosapi.infrastructure.entity.Cobranca;
 import com.portfolio.pagamentosapi.infrastructure.entity.StatusCobranca;
 import com.portfolio.pagamentosapi.infrastructure.repository.CobrancaRepository;
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class CobrancaService {
     public Cobranca criarCobranca(String cliente, BigDecimal valor) {
 
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new RuntimeException("Valor inválido");
+            throw new ValorInvalidoException("Valor inválido");
         }
 
         Cobranca cobranca = new Cobranca();
@@ -36,7 +38,11 @@ public class CobrancaService {
     }
 
     public Cobranca buscarCobranca(Long id) {
-        return cobrancaRepository.findById(id).orElseThrow(() -> new RuntimeException("Cobrança não encontrada"));
+        return cobrancaRepository.findById(id).orElseThrow(() -> new CobrancaNaoEncontradaException("Cobrança não encontrada"));
+    }
+
+    public List<Cobranca> buscarTodasCobrancas() {
+        return cobrancaRepository.findAll();
     }
 
     public Cobranca atualizarCobranca(Long id, String cliente, BigDecimal valor) {

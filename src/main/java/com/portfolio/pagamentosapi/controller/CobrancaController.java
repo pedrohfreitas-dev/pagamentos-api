@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/cobrancas")
@@ -26,6 +27,11 @@ public class CobrancaController {
     @GetMapping("/{id}")
     public ResponseEntity<Cobranca> buscarCobranca(@PathVariable Long id) {
        return ResponseEntity.ok(cobrancaService.buscarCobranca(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Cobranca>> buscarTodasCobrancas() {
+        return ResponseEntity.ok(cobrancaService.buscarTodasCobrancas());
     }
 
     @PutMapping("/{id}")
